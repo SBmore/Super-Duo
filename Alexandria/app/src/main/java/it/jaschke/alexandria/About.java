@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 public class About extends Fragment {
 
     public About(){
@@ -26,5 +25,4 @@ public class About extends Fragment {
         super.onAttach(activity);
         activity.setTitle(R.string.about);
     }
-
 }

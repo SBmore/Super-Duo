@@ -14,7 +14,6 @@ android {
 
     jacoco {
         version = '0.6.2.201302030002'
-
     }
 
     compileOptions {
@@ -37,6 +36,6 @@ android {
 }
 
 dependencies {
+    compile 'me.dm7.barcodescanner:zbar:1.8.3'
     compile 'com.android.support:appcompat-v7:22.2.1'
-
 }
