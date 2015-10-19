@@ -16,7 +16,9 @@
             android:background="@color/primary_light"
             android:orientation="horizontal"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp" >
 
             <ImageView
                 android:id="@+id/widgetImgLauncher"
@@ -28,28 +30,25 @@
             <LinearLayout
                 android:id="@+id/widgetTopBar"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingBottom="4dp"
                 android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
                 android:paddingTop="4dp" >
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/app_name"
+                    android:gravity="center_vertical"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txvWidgetTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="test"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/secondary_text" />
             </LinearLayout>
         </LinearLayout>
 

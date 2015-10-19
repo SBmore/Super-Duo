@@ -10,7 +10,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/FootballScoresTheme" >
+        android:theme="@style/FootballScoresTheme"
+        android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -36,7 +37,10 @@
         <service android:name=".service.MyFetchService" />
 
         <!-- Widget Receiver -->
-        <receiver android:name=".Widgets.WidgetProvider" >
+        <receiver
+            android:enabled="@bool/honeycombMr1OrAbove"
+            android:name=".widgets.WidgetProvider">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -45,6 +49,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
         </receiver>
+
+        <!-- Widget service -->
+        <service
+            android:name="barqsoft.footballscores.widgets.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

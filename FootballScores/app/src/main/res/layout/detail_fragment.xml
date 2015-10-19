@@ -52,9 +52,12 @@
                 android:background="@drawable/share_button"
                 android:drawableLeft="@android:drawable/ic_menu_share"
                 android:drawableStart="@android:drawable/ic_menu_share"
+                android:paddingRight="16dp"
                 android:paddingLeft="16dp"
                 android:gravity="center"
-                android:text="@string/share_text" />
+                android:text="@string/share_text"
+                android:contentDescription="@string/share_text"
+                android:textColor="@color/secondary_text"/>
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

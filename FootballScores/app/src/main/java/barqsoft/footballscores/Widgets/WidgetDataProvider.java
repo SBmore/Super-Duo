@@ -1,9 +1,10 @@
-package barqsoft.footballscores.Widgets;
+package barqsoft.footballscores.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Steven on 11/10/2015.
+ * Created by Steven on 11/10/2015 using Tutorial by Dharmang Soni
+ * http://dharmangsoni.blogspot.co.uk/2014/03/collection-widget-with-event-handling.html
  */
 @SuppressLint("NewApi")
 public class WidgetDataProvider implements RemoteViewsFactory {
@@ -43,8 +45,15 @@ public class WidgetDataProvider implements RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         RemoteViews mView = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item_1);
-//        mView.setTextViewText(android.R.id.text1, mCollections.get(position));
+        mView.setTextViewText(android.R.id.text1, (CharSequence) mCollections.get(position));
         mView.setTextColor(android.R.id.text1, Color.BLACK);
+
+        final Intent fillInIntent = new Intent();
+        fillInIntent.setAction(WidgetProvider.ACTION_TOAST);
+        final Bundle bundle = new Bundle();
+        bundle.putString(WidgetProvider.EXTRA_STRING, (String) mCollections.get(position));
+        fillInIntent.putExtras(bundle);
+        mView.setOnClickFillInIntent(android.R.id.text1, fillInIntent);
         return mView;
     }
 
