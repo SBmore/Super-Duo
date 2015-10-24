@@ -1,14 +1,12 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
 public class Utilities {
-    //    public static final int SERIE_A = 357;
-//    public static final int PREMIER_LEGAUE = 354;
     public static final int CHAMPIONS_LEAGUE = 362;
-//    public static final int PRIMERA_DIVISION = 358;
-//    public static final int BUNDESLIGA = 351;
     public static final int BUNDESLIGA1 = 394;
     public static final int BUNDESLIGA2 = 395;
     public static final int LIGUE1 = 396;
@@ -21,23 +19,42 @@ public class Utilities {
     public static final int Bundesliga3 = 403;
     public static final int EREDIVISIE = 404;
 
-    public static String getLeague(int league_num) {
+    public static final String ARSENAL = "Arsenal London FC";
+    public static final String ASTON = "Aston Villa FC";
+    public static final String CHELSEA = "Chelsea FC";
+    public static final String CRYSTAL = "Crystal Palace FC";
+    public static final String EVERTON = "Everton FC";
+    public static final String LEICESTER = "Leicester City FC";
+    public static final String LIVERPOOL = "Liverpool FC";
+    public static final String MAN_C = "Manchester City FC";
+    public static final String MAN_U = "Manchester United FC";
+    public static final String NEWCASTLE = "Newcastle United FC";
+    public static final String SOUTHAMPTON = "Southampton FC";
+    public static final String STOKE = "Stoke City FC";
+    public static final String SUNDERLAND = "Sunderland AFC";
+    public static final String SWANSEA = "Swansea City";
+    public static final String TOTTENHAM = "Tottenham Hotspur FC";
+    public static final String WEST_BROM = "West Bromwich Albion";
+    public static final String WEST_HAM = "West Ham United FC";
+
+    public static String getLeague(Context context, int league_num) {
+
         switch (league_num) {
-            case BUNDESLIGA1 : return "Bundesliga 1";
-            case BUNDESLIGA2 : return "Bundesliga 2";
-            case LIGUE1 : return "Ligue 1";
-            case LIGUE2 : return "Ligue 2";
-            case PREMIER_LEAGUE : return "Premier League";
-            case CHAMPIONS_LEAGUE : return "UEFA Champions League";
-            case PRIMERA_DIVISION : return "Primera Division";
-            case SEGUNDA_DIVISION : return "Secunda Division";
-            case SERIE_A : return "Serie A";
-            case PRIMERA_LIGA : return "Primera Liga";
-            case Bundesliga3 : return "Bundesliga 3";
-            case EREDIVISIE : return "Eredivisie";
+            case BUNDESLIGA1 : return context.getString(R.string.bundesliga_1_name);
+            case BUNDESLIGA2 : return context.getString(R.string.bundesliga_2_name);
+            case LIGUE1 : return context.getString(R.string.ligue_1_name);
+            case LIGUE2 : return context.getString(R.string.ligue_2_name);
+            case PREMIER_LEAGUE : return context.getString(R.string.premier_league_name);
+            case CHAMPIONS_LEAGUE : return context.getString(R.string.champions_league_name);
+            case PRIMERA_DIVISION : return context.getString(R.string.primera_division_name);
+            case SEGUNDA_DIVISION : return context.getString(R.string.secunda_division_name);
+            case SERIE_A : return context.getString(R.string.serie_a_name);
+            case PRIMERA_LIGA : return context.getString(R.string.primera_liga_name);
+            case Bundesliga3 : return context.getString(R.string.bundesliga_3_name);
+            case EREDIVISIE : return context.getString(R.string.eredivisie_name);
 
             default:
-                return "Not known League Please report";
+                return context.getString(R.string.no_league_found);
         }
     }
 
@@ -73,28 +90,26 @@ public class Utilities {
         }
         switch (teamname) { //This is the set of icons that are currently in the app. Feel free to find and add more
             //as you go.
-            case "Arsenal London FC":
-                return R.drawable.arsenal;
-            case "Manchester United FC":
-                return R.drawable.manchester_united;
-            case "Swansea City":
-                return R.drawable.swansea_city_afc;
-            case "Leicester City":
-                return R.drawable.leicester_city_fc_hd_logo;
-            case "Everton FC":
-                return R.drawable.everton_fc_logo1;
-            case "West Ham United FC":
-                return R.drawable.west_ham;
-            case "Tottenham Hotspur FC":
-                return R.drawable.tottenham_hotspur;
-            case "West Bromwich Albion":
-                return R.drawable.west_bromwich_albion_hd_logo;
-            case "Sunderland AFC":
-                return R.drawable.sunderland;
-            case "Stoke City FC":
-                return R.drawable.stoke_city;
+            case ARSENAL: return R.drawable.arsenal;
+            case ASTON: return R.drawable.aston_villa;
+            case CHELSEA: return R.drawable.chelsea;
+            case CRYSTAL: return R.drawable.crystal_palace_fc;
+            case EVERTON: return R.drawable.everton_fc_logo1;
+            case LEICESTER: return R.drawable.leicester_city_fc_hd_logo;
+            case LIVERPOOL: return  R.drawable.liverpool;
+            case MAN_C: return  R.drawable.manchester_city;
+            case MAN_U: return R.drawable.manchester_united;
+            case NEWCASTLE: return R.drawable.newcastle_united;
+            case SOUTHAMPTON: return R.drawable.southampton_fc;
+            case STOKE: return R.drawable.stoke_city;
+            case SUNDERLAND: return R.drawable.sunderland;
+            case SWANSEA: return R.drawable.swansea_city_afc;
+            case TOTTENHAM: return R.drawable.tottenham_hotspur;
+            case WEST_BROM: return R.drawable.west_bromwich_albion_hd_logo;
+            case WEST_HAM: return R.drawable.west_ham;
+
             default:
-                return R.drawable.ic_launcher;
+                return R.drawable.ic_launcher; // looks less harsh than the no_icon.png
         }
     }
 }

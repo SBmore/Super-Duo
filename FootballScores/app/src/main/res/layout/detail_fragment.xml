@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +23,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/League" />
+                android:textSize="@dimen/League"
+                android:focusable="true"/>
 
             <TextView
                 android:id="@+id/matchday_textview"
@@ -31,7 +33,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/League" />
+                android:textSize="@dimen/League"
+                android:focusable="true"/>
         </LinearLayout>
 
         <FrameLayout

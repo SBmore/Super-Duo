@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public static final String EXTRA_STRING = "barqsoft.footballscores.widgets.EXTRA_STRING";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         if (intent.getAction().equals(ACTION_TOAST)) {
             String item = intent.getExtras().getString(EXTRA_STRING);
             Toast.makeText(context, item, Toast.LENGTH_LONG).show();

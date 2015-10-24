@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+
+import barqsoft.footballscores.R;
 
 /**
  * Created by yehya khaled on 2/25/2015.
@@ -19,13 +22,10 @@ public class ScoresProvider extends ContentProvider
     private static final int MATCHES_WITH_ID = 102;
     private static final int MATCHES_WITH_DATE = 103;
     private UriMatcher muriMatcher = buildUriMatcher();
-    private static final SQLiteQueryBuilder ScoreQuery =
-            new SQLiteQueryBuilder();
+    private static final SQLiteQueryBuilder ScoreQuery = new SQLiteQueryBuilder();
     private static final String SCORES_BY_LEAGUE = DatabaseContract.scores_table.LEAGUE_COL + " = ?";
-    private static final String SCORES_BY_DATE =
-            DatabaseContract.scores_table.DATE_COL + " LIKE ?";
-    private static final String SCORES_BY_ID =
-            DatabaseContract.scores_table.MATCH_ID + " = ?";
+    private static final String SCORES_BY_DATE = DatabaseContract.scores_table.DATE_COL + " LIKE ?";
+    private static final String SCORES_BY_ID = DatabaseContract.scores_table.MATCH_ID + " = ?";
 
 
     static UriMatcher buildUriMatcher() {
@@ -88,7 +88,7 @@ public class ScoresProvider extends ContentProvider
             case MATCHES_WITH_DATE:
                 return DatabaseContract.scores_table.CONTENT_TYPE;
             default:
-                throw new UnsupportedOperationException("Unknown uri :" + uri );
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri );
         }
     }
 
@@ -118,7 +118,7 @@ public class ScoresProvider extends ContentProvider
             case MATCHES_WITH_LEAGUE: retCursor = mOpenHelper.getReadableDatabase().query(
                     DatabaseContract.SCORES_TABLE,
                     projection,SCORES_BY_LEAGUE,selectionArgs,null,null,sortOrder); break;
-            default: throw new UnsupportedOperationException("Unknown Uri" + uri);
+            default: throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
         retCursor.setNotificationUri(getContext().getContentResolver(),uri);
         return retCursor;
@@ -131,7 +131,7 @@ public class ScoresProvider extends ContentProvider
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values)
+    public int bulkInsert(Uri uri, @NonNull ContentValues[] values)
     {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         //db.delete(DatabaseContract.SCORES_TABLE,null,null);
@@ -140,7 +140,7 @@ public class ScoresProvider extends ContentProvider
         {
             case MATCHES:
                 db.beginTransaction();
-                int returncount = 0;
+                int returnCount = 0;
                 try
                 {
                     for(ContentValues value : values)
@@ -149,7 +149,7 @@ public class ScoresProvider extends ContentProvider
                                 SQLiteDatabase.CONFLICT_REPLACE);
                         if (_id != -1)
                         {
-                            returncount++;
+                            returnCount++;
                         }
                     }
                     db.setTransactionSuccessful();
@@ -157,7 +157,7 @@ public class ScoresProvider extends ContentProvider
                     db.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri,null);
-                return returncount;
+                return returnCount;
             default:
                 return super.bulkInsert(uri,values);
         }
