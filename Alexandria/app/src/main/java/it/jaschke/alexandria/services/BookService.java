@@ -80,6 +80,9 @@ public class BookService extends IntentService {
             return;
         }
 
+        // Josh's feedback said how the app crashed when he tried to add a book on a plane.
+        // Check that the network is available before querying the API to avoid a crash (of the app,
+        // not the plane - we don't have that kind of power)
         if (Utility.isNetworkAvailable(this)) {
             Cursor bookEntry = getContentResolver().query(
                     AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)),

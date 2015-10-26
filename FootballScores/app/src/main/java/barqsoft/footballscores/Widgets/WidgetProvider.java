@@ -60,7 +60,6 @@ public class WidgetProvider extends AppWidgetProvider {
 
         Intent intent = new Intent(context, WidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         mView.setRemoteAdapter(widgetId, R.id.widgetCollectionList, intent);
 

@@ -48,12 +48,17 @@ public class ScoresAdapter extends CursorAdapter {
         String matchTime = cursor.getString(COL_MATCHTIME);
         String contentDescription;
 
+        // Moizeé's feedback mentioned that the app isn't very accessible to those without perfect
+        // vision so lots of content description changes have happened here
+
         mHolder.home_name.setText(homeTeam);
         mHolder.away_name.setText(awayTeam);
         mHolder.date.setText(matchTime);
         mHolder.date.setContentDescription("Match time: " + matchTime);
         mHolder.score.setText(Utilities.getScores(homeGoals, awayGoals));
 
+        // make the content description read better depending on whether there is a score
+        // available for this match
         if (homeGoals > -1 && awayGoals > -1) {
             mHolder.score.setContentDescription("Score: " + homeGoals + " " + awayGoals);
             contentDescription = matchTime + ", " + homeTeam + " " + homeGoals + ", " +
@@ -63,11 +68,14 @@ public class ScoresAdapter extends CursorAdapter {
             contentDescription = matchTime + ", " + homeTeam + " versus " + awayTeam;
         }
 
+        // give the whole list item a content description so clicking on it once will read the
+        // whole information in a clear manner
         view.setContentDescription(contentDescription);
         mHolder.match_id = cursor.getDouble(COL_ID);
 
         String homeCrestDesc = homeTeam + " " + context.getString(R.string.team_crest);
         int homeCrestId = Utilities.getTeamCrestByTeamName(homeTeam);
+        // make it clear that the image is a placeholder if the crest can't be found (same below)
         if (homeCrestId == R.drawable.ic_launcher) {
             homeCrestDesc = homeCrestDesc + " unavailable";
         }
@@ -107,6 +115,7 @@ public class ScoresAdapter extends CursorAdapter {
             league.setText(leagueName);
             Button share_button = (Button) v.findViewById(R.id.share_button);
 
+            // add detail information to the content description for the list item
             contentDescription = contentDescription + ", League:  " + leagueName + " " + matchDay;
             view.setContentDescription(contentDescription);
 

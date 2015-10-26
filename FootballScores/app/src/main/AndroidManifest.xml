@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="barqsoft.footballscores" >
+    package="barqsoft.footballscores">
 
     <uses-permission
         android:name="android.permission.INTERNET"
         android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/FootballScoresTheme"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/FootballScoresTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <provider
             android:name=".data.ScoresProvider"
-            android:authorities="barqsoft.footballscores" />
+            android:authorities="barqsoft.footballscores">
+        </provider>
 
         <activity
             android:name=".AboutActivity"
             android:label="About"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="barqsoft.footballscores.MainActivity" />
@@ -38,8 +39,8 @@
 
         <!-- Widget Receiver -->
         <receiver
-            android:enabled="@bool/honeycombMr1OrAbove"
-            android:name=".widgets.WidgetProvider">
+            android:name=".widgets.WidgetProvider"
+            android:enabled="@bool/honeycombMr1OrAbove">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -5,7 +5,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +26,7 @@ import java.util.TimeZone;
 import java.util.Vector;
 
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.Utilities;
 import barqsoft.footballscores.data.DatabaseContract;
 
 /**
@@ -37,97 +41,103 @@ public class MyFetchService extends IntentService
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
         getData("n2");
         getData("p2");
     }
 
-    private void getData (String timeFrame)
-    {
-        //Creating fetch URL
-        final String BASE_URL = getString(R.string.base_url); //Base URL
-        final String QUERY_TIME_FRAME = getString(R.string.time_frame); //Time Frame parameter to determine days
+    private void getData(String timeFrame) {
+        if (Utilities.isNetworkAvailable(this)) {
+            //Creating fetch URL
+            final String BASE_URL = getString(R.string.base_url); //Base URL
+            final String QUERY_TIME_FRAME = getString(R.string.time_frame); //Time Frame parameter to determine days
 //        final String QUERY_MATCH_DAY = getString(R.string.match_day);
 
-        Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
-                appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
-        //Log.v(LOG_TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
-        HttpURLConnection m_connection = null;
-        BufferedReader reader = null;
-        String JSON_data = null;
-        //Opening Connection
-        try {
-            URL fetch = new URL(fetch_build.toString());
-            m_connection = (HttpURLConnection) fetch.openConnection();
-            m_connection.setRequestMethod(getString(R.string.get_call));
-            m_connection.addRequestProperty(getString(R.string.request_property_field), getString(R.string.api_key));
-            m_connection.connect();
+            Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
+                    appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
+            //Log.v(LOG_TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
+            HttpURLConnection m_connection = null;
+            BufferedReader reader = null;
+            String JSON_data = null;
+            //Opening Connection
 
-            // Read the input stream into a String
-            InputStream inputStream = m_connection.getInputStream();
-            StringBuilder builder = new StringBuilder();
-            if (inputStream == null) {
-                // Nothing to do.
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                URL fetch = new URL(fetch_build.toString());
+                m_connection = (HttpURLConnection) fetch.openConnection();
+                m_connection.setRequestMethod(getString(R.string.get_call));
+                m_connection.addRequestProperty(getString(R.string.request_property_field), getString(R.string.api_key));
+                m_connection.connect();
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                builder.append(line).append("\n");
-            }
-            if (builder.length() == 0) {
-                // Stream was empty.  No point in parsing.
-                return;
-            }
-            JSON_data = builder.toString();
-        }
-        catch (Exception e)
-        {
-            Log.e(LOG_TAG,getString(R.string.exception_general) + e.getMessage());
-        }
-        finally {
-            if(m_connection != null)
-            {
-                m_connection.disconnect();
-            }
-            if (reader != null)
-            {
-                try {
-                    reader.close();
+                // Read the input stream into a String
+                InputStream inputStream = m_connection.getInputStream();
+                StringBuilder builder = new StringBuilder();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return;
                 }
-                catch (IOException e)
-                {
-                    Log.e(LOG_TAG,getString(R.string.error_closing_stream));
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    builder.append(line).append("\n");
                 }
-            }
-        }
-        try {
-            if (JSON_data != null) {
-                //This bit is to check if the data contains any matches. If not, we call processJson on the dummy data
-                JSONArray matches = new JSONObject(JSON_data).getJSONArray(getString(R.string.fixtures));
-                if (matches.length() == 0) {
-                    //if there is no data, call the function on dummy data
-                    //this is expected behavior during the off season.
-                    processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+
+                if (builder.length() == 0) {
+                    // Stream was empty.  No point in parsing.
                     return;
                 }
 
-                processJSONdata(JSON_data, getApplicationContext(), true);
-            } else {
-                //Could not Connect
-                Log.d(LOG_TAG, getString(R.string.error_cannot_connect));
+                JSON_data = builder.toString();
+            } catch (Exception e) {
+                Log.e(LOG_TAG, getString(R.string.exception_general) + e.getMessage());
+            } finally {
+                if (m_connection != null) {
+                    m_connection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, getString(R.string.error_closing_stream));
+                    }
+                }
             }
-        }
-        catch(Exception e)
-        {
-            Log.e(LOG_TAG,e.getMessage());
+
+            try {
+                if (JSON_data != null) {
+                    //This bit is to check if the data contains any matches. If not, we call processJson on the dummy data
+                    JSONArray matches = new JSONObject(JSON_data).getJSONArray(getString(R.string.fixtures));
+                    if (matches.length() == 0) {
+                        //if there is no data, call the function on dummy data
+                        //this is expected behavior during the off season.
+                        processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                        return;
+                    }
+
+                    processJSONdata(JSON_data, getApplicationContext(), true);
+                } else {
+                    //Could not Connect
+                    Log.d(LOG_TAG, getString(R.string.error_cannot_connect));
+                }
+            } catch (Exception e) {
+                Log.e(LOG_TAG, e.getMessage());
+            }
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    CharSequence text = getResources().getString(R.string.no_internet);
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast.makeText(getApplicationContext(), text, duration).show();
+                }
+            });
         }
     }
+
     private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
     {
         //JSON data
@@ -164,7 +174,7 @@ public class MyFetchService extends IntentService
         String league = null;
         String mDate = null;
         String mTime = null;
-        String Home = null;
+        String home = null;
         String away = null;
         String homeGoals = null;
         String awayGoals = null;
@@ -234,7 +244,7 @@ public class MyFetchService extends IntentService
                         Log.d(LOG_TAG, this.getString(R.string.error_general));
                         Log.e(LOG_TAG,e.getMessage());
                     }
-                    Home = match_data.getString(HOME_TEAM);
+                    home = match_data.getString(HOME_TEAM);
                     away = match_data.getString(AWAY_TEAM);
                     homeGoals = match_data.getJSONObject(RESULT).getString(HOME_GOALS);
                     awayGoals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
@@ -243,7 +253,7 @@ public class MyFetchService extends IntentService
                     match_values.put(DatabaseContract.scores_table.MATCH_ID,matchId);
                     match_values.put(DatabaseContract.scores_table.DATE_COL,mDate);
                     match_values.put(DatabaseContract.scores_table.TIME_COL,mTime);
-                    match_values.put(DatabaseContract.scores_table.HOME_COL,Home);
+                    match_values.put(DatabaseContract.scores_table.HOME_COL,home);
                     match_values.put(DatabaseContract.scores_table.AWAY_COL,away);
                     match_values.put(DatabaseContract.scores_table.HOME_GOALS_COL,homeGoals);
                     match_values.put(DatabaseContract.scores_table.AWAY_GOALS_COL,awayGoals);

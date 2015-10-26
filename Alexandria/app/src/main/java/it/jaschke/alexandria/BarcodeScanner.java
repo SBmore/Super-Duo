@@ -1,3 +1,4 @@
+// Developed using the simple example on the repositories git hub:
 // https://github.com/dm77/barcodescanner/blob/master/zbar/sample/src/main/java/me/dm7/barcodescanner/zbar/sample/SimpleScannerFragment.java
 
 package it.jaschke.alexandria;
@@ -31,6 +32,12 @@ public class BarcodeScanner extends Fragment implements ZBarScannerView.ResultHa
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.stopCamera();
+    }
+
+    @Override
     public void handleResult(Result rawResult) {
         AddBook fragment = new AddBook();
         Bundle bundle = new Bundle();
@@ -44,11 +51,5 @@ public class BarcodeScanner extends Fragment implements ZBarScannerView.ResultHa
                 .replace(((ViewGroup) getView().getParent()).getId(), fragment, ADD_BOOK_TAG)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mScannerView.stopCamera();
     }
 }
