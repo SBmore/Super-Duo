@@ -44,7 +44,7 @@ public class ScoresAdapter extends CursorAdapter {
         String homeTeam = cursor.getString(COL_HOME);
         int homeGoals = cursor.getInt(COL_HOME_GOALS);
         String awayTeam = cursor.getString(COL_AWAY);
-        int awayGoals = cursor.getInt(COL_HOME_GOALS);
+        int awayGoals = cursor.getInt(COL_AWAY_GOALS);
         String matchTime = cursor.getString(COL_MATCHTIME);
         String contentDescription;
 
