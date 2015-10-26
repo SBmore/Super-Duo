@@ -58,9 +58,9 @@ public class WidgetDataProvider implements RemoteViewsFactory {
         mView.setTextViewText(R.id.widget_list_text, (CharSequence) mCollections.get(position));
 
         final Intent fillInIntent = new Intent();
-        fillInIntent.setAction(WidgetProvider.ACTION_TOAST);
+        fillInIntent.setAction(barqsoft.footballscores.widgets.WidgetProvider.ACTION_TOAST);
         final Bundle bundle = new Bundle();
-        bundle.putString(WidgetProvider.EXTRA_STRING, (String) mCollections.get(position));
+        bundle.putString(barqsoft.footballscores.widgets.WidgetProvider.EXTRA_STRING, (String) mCollections.get(position));
         fillInIntent.putExtras(bundle);
         mView.setOnClickFillInIntent(R.id.widget_list_text, fillInIntent);
         return mView;
