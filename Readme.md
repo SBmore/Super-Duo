@@ -1,10 +1,13 @@
-#Project 4: Super-Duo
+#Project 2: Super-Duo
 
 #Project Overview
-In this project, you will create an app with multiple flavors that uses multiple libraries and Google Could Endpoints. The finished app will consist of four modules. A Java library that provides jokes, a Google Could Endpoints (GCE) project that serves those jokes, an Android library containing an activity for displaying jokes, and an Android app that fetches jokes from the GCE module and passes them to the Android Library for display.
+You will productionize two apps, taking them from a functional state to a production-ready state. This will involve finding and handling error cases, adding accessibility features, allowing for localization, adding a widget, and adding a library.
 
 ## Why this Project
-As Android projects grow in complexity, it becomes necessary to customize the behavior of the Gradle build tool, allowing automation of repetitive tasks. Particularly, factoring functionality into libraries and creating product flavors allow for much bigger projects with minimal added complexity.
+Super Duo gives you an opportunity to diagnose problems in a pair of apps and also practice improving apps. These skills are vital to building apps users will love.
+
+Diagnosing issues with existing apps is key to working on large apps or continuing projects in Android.
+Being aware of the common pitfalls in app design frees a developer to produce novel app experiences without making the same mistakes over and over.
 
 ##Information
 The API key for the Football Scores app has been removed for security. You can get your own API key from http://api.football-data.org/index.Please insert your API key in the api_key element in strings.xml. The api_key element is the last element in the file.
