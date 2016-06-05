@@ -1,4 +1,4 @@
-#Project 2: Super-Duo
+#Project 3: Super-Duo
 
 #Project Overview
 You will productionize two apps, taking them from a functional state to a production-ready state. This will involve finding and handling error cases, adding accessibility features, allowing for localization, adding a widget, and adding a library.
